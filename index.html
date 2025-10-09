@@ -1171,11 +1171,11 @@
   <script src="script.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // Select all project items with the eye icon
-    const projectIcons = document.getElementsByClassName("project-item-icon-box");
+    // Select all elements with the class "project-item-icon-box"
+    const projectIconBoxes = document.querySelectorAll(".project-item-icon-box");
   
-    projectIcons.forEach(icon => {
-      icon.addEventListener("click", (event) => {
+    projectIconBoxes.forEach(iconBox => {
+      iconBox.addEventListener("click", (event) => {
         // Find the parent project item and its image
         const projectItem = event.target.closest(".project-item");
         const projectImage = projectItem.querySelector("img").src;
