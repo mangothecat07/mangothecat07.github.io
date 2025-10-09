@@ -6,7 +6,50 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personal Portfolio</title>
-
+<style>
+  .image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .image-overlay .overlay-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+  }
+  
+  .image-overlay img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+  }
+  
+  .image-overlay .close-overlay {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #fff;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
   <!--
     - favicon
   -->
@@ -1173,7 +1216,48 @@
     - custom js link
   -->
   <script src="script.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Select all project items with the eye icon
+    const projectIcons = document.querySelectorAll(".project-item-icon-box ion-icon[name='eye-outline']");
+  
+    projectIcons.forEach(icon => {
+      icon.addEventListener("click", (event) => {
+        // Find the parent project item and its image
+        const projectItem = event.target.closest(".project-item");
+        const projectImage = projectItem.querySelector("img").src;
+  
+        // Create overlay
+        const overlay = document.createElement("div");
+        overlay.classList.add("image-overlay");
+        overlay.innerHTML = `
+          <div class="overlay-content">
+            <img src="${projectImage}" alt="Full Image">
+            <button class="close-overlay">&times;</button>
+          </div>
+        `;
+  
+        // Append overlay to the body
+        document.body.appendChild(overlay);
+  
+        // Close overlay on button click
+        overlay.querySelector(".close-overlay").addEventListener("click", () => {
+          document.body.removeChild(overlay);
+        });
+  
+        // Close overlay on clicking outside the content
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) {
+            document.body.removeChild(overlay);
+          }
+        });
+      });
+    });
+  });
 
+  
+
+</script>
   <!--
     - ionicon link
   -->
