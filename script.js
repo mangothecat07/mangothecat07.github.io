@@ -35,7 +35,7 @@ function closeIframe() {
 }
 document.addEventListener("DOMContentLoaded", () => {
   // Select all elements with the class "project-item-icon-box"
-  const projectIconBoxes = document.querySelectorAll(".project-item-icon-box");
+  const projectIconBoxes = document.querySelectorAll(".project-img");
 
   projectIconBoxes.forEach(iconBox => {
     iconBox.addEventListener("click", (event) => {
@@ -47,7 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Skip the overlay functionality for "web design" category
         return;
       }
-
+      if (document.querySelector(".image-overlay")) {
+        document.body.removeChild(overlay);
+      }
       // Find the image inside the project item
       const projectImage = projectItem.querySelector("img").src;
 
@@ -72,6 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // Close overlay on clicking outside the content
       overlay.addEventListener("click", (e) => {
         if (e.target === overlay) {
+          document.body.removeChild(overlay);
+        }
+        if (document.querySelector(".image-overlay")) {
           document.body.removeChild(overlay);
         }
       });
