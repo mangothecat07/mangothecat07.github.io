@@ -5,7 +5,79 @@
 // element toggle function
 const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 
+function openIframe(link) {
+  const iframeContainer = document.getElementById('iframe-container');
+  const iframe = document.getElementById('project-iframe');
 
+  // Set the iframe source to the provided link
+  iframe.src = link;
+
+  // Display the iframe container
+  iframeContainer.style.display = 'block';
+
+  // Shift focus to the iframe and disable scrolling on the main page
+  iframe.focus();
+  document.body.style.overflow = 'hidden'; // Disable scrolling on the main page
+}
+
+function closeIframe() {
+  const iframeContainer = document.getElementById('iframe-container');
+  const iframe = document.getElementById('project-iframe');
+
+  // Hide the iframe container
+  iframeContainer.style.display = 'none';
+
+  // Clear the iframe source
+  iframe.src = '';
+
+  // Re-enable scrolling on the main page
+  document.body.style.overflow = 'auto';
+}
+document.addEventListener("DOMContentLoaded", () => {
+  // Select all elements with the class "project-item-icon-box"
+  const projectIconBoxes = document.querySelectorAll(".project-item-icon-box");
+
+  projectIconBoxes.forEach(iconBox => {
+    iconBox.addEventListener("click", (event) => {
+      // Find the parent project item
+      const projectItem = event.target.closest(".project-item");
+
+      // Check if the project item belongs to the "web design" category
+      if (projectItem.dataset.category === "web design") {
+        // Skip the overlay functionality for "web design" category
+        return;
+      }
+
+      // Find the image inside the project item
+      const projectImage = projectItem.querySelector("img").src;
+
+      // Create overlay
+      const overlay = document.createElement("div");
+      overlay.classList.add("image-overlay");
+      overlay.innerHTML = `
+        <div class="overlay-content">
+          <img src="${projectImage}" alt="Full Image">
+          <button class="close-overlay">&times;</button>
+        </div>
+      `;
+
+      // Append overlay to the body
+      document.body.appendChild(overlay);
+
+      // Close overlay on button click
+      overlay.querySelector(".close-overlay").addEventListener("click", () => {
+        document.body.removeChild(overlay);
+      });
+
+      // Close overlay on clicking outside the content
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          document.body.removeChild(overlay);
+        }
+      });
+    });
+  });
+});
 
 // sidebar variables
 const sidebar = document.querySelector("[data-sidebar]");

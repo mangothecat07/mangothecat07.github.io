@@ -7,6 +7,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personal Portfolio</title>
 <style>
+  /* Style for the close button */
+#iframe-container button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -595,14 +615,18 @@
             </ul>
 
           </div>
-
+<!-- Add this iframe container somewhere in your HTML -->
+<div id="iframe-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); z-index: 1000;">
+  <button onclick="closeIframe()">×</button>
+  <iframe id="project-iframe" style="width: 90%; height: 90%; margin: 5% auto; display: block; border: none; border-radius: 8px;"></iframe>
+</div>
           <ul class="project-list">
 
             <li class="project-item active" data-filter-item data-category="web design">
               <a href="#">
                 <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
+                  <div class="project-item-icon-box" onclick="openIframe('https://mangothecat07.github.io/cardhover')">
+                    <ion-icon name="eye-outline" ></ion-icon>
                   </div>
                   <img src="cardhover.png" alt="" loading="lazy">
                 </figure>
@@ -614,7 +638,7 @@
             <li class="project-item active" data-filter-item data-category="web design">
               <a href="#">
                 <figure class="project-img">
-                  <div class="project-item-icon-box">
+                  <div class="project-item-icon-box" onclick="openIframe('https://mangothecat07.github.io/css-carousel')">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
                   <img src="card-slider.png" alt="Card Slider" loading="lazy">
@@ -627,7 +651,7 @@
             <li class="project-item active" data-filter-item data-category="web design">
               <a href="#">
                 <figure class="project-img">
-                  <div class="project-item-icon-box">
+                  <div class="project-item-icon-box" onclick="openIframe('https://mangothecat07.github.io/responsive-image-carousel')">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
                   <img src="responsive-image-carousel.png" alt="responsive-image-carousel" loading="lazy">
@@ -640,7 +664,7 @@
             <li class="project-item active" data-filter-item data-category="web design">
               <a href="#">
                 <figure class="project-img">
-                  <div class="project-item-icon-box">
+                  <div class="project-item-icon-box" onclick="openIframe('https://mangothecat07.github.io/hover-card-style')">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
                   <img src="hover-card.png" alt="hover-card" loading="lazy">
@@ -653,7 +677,7 @@
             <li class="project-item active" data-filter-item data-category="web design">
               <a href="#">
                 <figure class="project-img">
-                  <div class="project-item-icon-box">
+                  <div class="project-item-icon-box" onclick="openIframe('https://mangothecat07.github.io/profile-card')">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
                   <img src="profile.png" alt="profile" loading="lazy">
@@ -666,7 +690,7 @@
             <li class="project-item active" data-filter-item data-category="web design">
               <a href="#">
                 <figure class="project-img">
-                  <div class="project-item-icon-box">
+                  <div class="project-item-icon-box" onclick="openIframe('https://mangothecat07.github.io/spotify-player')">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
                   <img src="spotifyplayer.png" alt="spotify" loading="lazy">
@@ -861,14 +885,52 @@
   -->
   <script src="script.js"></script>
 <script>
+
+
+  function openIframe(link) {
+    const iframeContainer = document.getElementById('iframe-container');
+    const iframe = document.getElementById('project-iframe');
+  
+    // Set the iframe source to the provided link
+    iframe.src = link;
+  
+    // Display the iframe container
+    iframeContainer.style.display = 'block';
+  
+    // Shift focus to the iframe and disable scrolling on the main page
+    iframe.focus();
+    document.body.style.overflow = 'hidden'; // Disable scrolling on the main page
+  }
+  
+  function closeIframe() {
+    const iframeContainer = document.getElementById('iframe-container');
+    const iframe = document.getElementById('project-iframe');
+  
+    // Hide the iframe container
+    iframeContainer.style.display = 'none';
+  
+    // Clear the iframe source
+    iframe.src = '';
+  
+    // Re-enable scrolling on the main page
+    document.body.style.overflow = 'auto';
+  }
   document.addEventListener("DOMContentLoaded", () => {
     // Select all elements with the class "project-item-icon-box"
     const projectIconBoxes = document.querySelectorAll(".project-item-icon-box");
   
     projectIconBoxes.forEach(iconBox => {
       iconBox.addEventListener("click", (event) => {
-        // Find the parent project item and its image
+        // Find the parent project item
         const projectItem = event.target.closest(".project-item");
+  
+        // Check if the project item belongs to the "web design" category
+        if (projectItem.dataset.category === "web design") {
+          // Skip the overlay functionality for "web design" category
+          return;
+        }
+  
+        // Find the image inside the project item
         const projectImage = projectItem.querySelector("img").src;
   
         // Create overlay
@@ -898,9 +960,6 @@
       });
     });
   });
-
-  
-
 </script>
   <!--
     - ionicon link
