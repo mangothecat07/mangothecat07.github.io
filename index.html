@@ -7,6 +7,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personal Portfolio</title>
 <style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .service-item {
+    opacity: 0; /* Start hidden */
+    animation: fadeIn 0.8s ease-in-out forwards;
+  }
+  
+  .service-item:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+  
+  .service-item:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+  
+  .service-item:nth-child(3) {
+    animation-delay: 0.6s;
+  }
   .image-overlay {
     position: fixed;
     top: 0;
@@ -798,13 +825,7 @@
           <h2 class="h2 article-title">Contact</h2>
         </header>
 
-        <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.065046858865!2d72.5093906!3d23.0158821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9b2f4b3711c1%3A0x9fc43ea27c4d25a9!2sAnand%20Nagar%2C%20Prahlad%20Nagar%2C%20Ahmedabad%2C%20Gujarat%20380015%2C%20India!5e0!3m2!1sen!2sus!4v1697031234567!5m2!1sen!2sus"></iframe>
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
-        </section>
+
 
         <section class="contact-form">
 
