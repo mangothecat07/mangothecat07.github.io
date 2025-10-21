@@ -2056,6 +2056,9 @@ body {
   .navbar-link {
     font-size: 12px; /* Reduce font size for smaller screens */
   }
+  article {
+    margin-top: -30px; /* Remove any extra margin on articles */
+  }
 }
 .image-overlay {
   position: fixed;
