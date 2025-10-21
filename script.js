@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 // element toggle function
 const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 
@@ -33,6 +31,7 @@ function closeIframe() {
   // Re-enable scrolling on the main page
   document.body.style.overflow = 'auto';
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   // Select all elements with the class "project-item-icon-box"
   const projectIconBoxes = document.querySelectorAll(".project-img");
@@ -57,41 +56,52 @@ document.addEventListener("DOMContentLoaded", () => {
       const overlay = document.createElement("div");
       overlay.classList.add("image-overlay");
       overlay.innerHTML = `
-        <div class="overlay-content">
-          <img src="${projectImage}" alt="Full Image">
-          <button class="close-overlay">&times;</button>
-        </div>
+<div class="image-overlay">
+  <div class="overlay-content">
+    <img src="${projectImage}" alt="Full Image">
+  </div>
+  
+
+  <button class="close-overlay">&times;</button>
+</div>
+
+
       `;
 
       // Append overlay to the body
       document.body.appendChild(overlay);
+      document.body.style.overflow = "hidden";
+
+      // Shift focus to the overlay
+      overlay.focus();
 
       // Close overlay on button click
       overlay.querySelector(".close-overlay").addEventListener("click", () => {
         document.body.removeChild(overlay);
+        document.body.style.overflow = "auto";
+
       });
 
       // Close overlay on clicking outside the content
       overlay.addEventListener("click", (e) => {
         if (e.target === overlay) {
           document.body.removeChild(overlay);
+          document.body.style.overflow = "auto";
+
         }
         if (document.querySelector(".image-overlay")) {
           document.body.removeChild(overlay);
+          document.body.style.overflow = "auto";
+
         }
       });
+
+
     });
   });
 });
 
-// sidebar variables
-const sidebar = document.querySelector("[data-sidebar]");
-const sidebarBtn = document.querySelector("[data-sidebar-btn]");
-
-// sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
-
-
+// Removed sidebar-related code
 
 // testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
@@ -128,8 +138,6 @@ for (let i = 0; i < testimonialsItem.length; i++) {
 // add click event to modal close button
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
-
-
 
 // custom select variables
 const select = document.querySelector("[data-select]");
@@ -189,8 +197,6 @@ for (let i = 0; i < filterBtn.length; i++) {
 
 }
 
-
-
 // contact form variables
 const form = document.querySelector("[data-form]");
 const formInputs = document.querySelectorAll("[data-form-input]");
@@ -209,8 +215,6 @@ for (let i = 0; i < formInputs.length; i++) {
 
   });
 }
-
-
 
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
@@ -233,3 +237,37 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  const name = encodeURIComponent(document.getElementById('fullname').value);
+  const email = encodeURIComponent(document.getElementById('email').value);
+  const message = encodeURIComponent(document.getElementById('message').value);
+
+  const gmailLink = `https://mail.google.com/mail/?view=cm&to=kunalmakhija147@gmail.com&su=Message from ${name}&body=Name: ${name}%0AEmail: ${email}%0A%0A${message}`;
+
+  // Open Gmail compose in a new tab
+  window.open(gmailLink, '_blank');
+});
+
+
+
+
+
+!function(){
+  if(!window.UnicornStudio){
+      window.UnicornStudio={isInitialized:!1};
+      var i=document.createElement("script");
+      i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.33/dist/unicornStudio.umd.js";
+      i.onload=function(){
+          if(!window.UnicornStudio.isInitialized){
+              UnicornStudio.init();
+              window.UnicornStudio.isInitialized = !0;
+          }
+      };
+      (document.head || document.body).appendChild(i);
+  }
+}();
+

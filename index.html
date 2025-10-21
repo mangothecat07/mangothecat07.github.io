@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personal Portfolio</title>
+  <title>Kunal Makhija</title>
 <style>
   
 </style>
@@ -18,7 +18,7 @@
     - custom css link
   -->
   <link rel="stylesheet" href="style.css">
-
+  <link href="https://fonts.googleapis.com/css?family=Archivo+Black&display=swap" rel="stylesheet">
   <!--
     - google font link
   -->
@@ -39,85 +39,7 @@
       - #SIDEBAR
     -->
 
-    <aside class="sidebar" data-sidebar>
-
-      <div class="sidebar-info">
-
-        <figure class="avatar-box">
-          <img src="pfp1.png" alt="Kunal Makhija" width="80">
-        </figure>
-
-        <div class="info-content">
-          <h1 class="name" title="Kunal Makhija">Kunal Makhija</h1>
-
-          <p class="title">Web developer</p>
-        </div>
-
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
-
-      </div>
-
-      <div class="sidebar-info_more">
-
-        <div class="separator"></div>
-
-        <ul class="contacts-list">
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
-              
-             <span style="color:#fff">kunalmakhija147@gmail.com</span> 
-            </div>
-
-          </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="phone-portrait-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Phone</p>
-
-              <span style="color:#fff">+91 9016062103</span>
-            </div>
-
-          </li>
-
-
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="logo-github"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <a href="https://github.com/mangothecat07" class="social-link">
-                <p style="color:#fff">Github</p>
-              </a>
-
-      
-            </div>
-
-          </li>
-
-        </ul>
-
-       
-
-    </aside>
+   
 
 
 
@@ -138,7 +60,7 @@
         <ul class="navbar-list">
 
           <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
+            <button class="navbar-link active" data-nav-link>About</button>
           </li>
 
           <li class="navbar-item">
@@ -146,7 +68,7 @@
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
+            <button class="navbar-link" data-nav-link>Projects</button>
           </li>
 
           
@@ -173,20 +95,24 @@
           <h2 class="h2 article-title">About me</h2>
         </header>
 
-        <section class="about-text">
-          <p>
-            I'm a software developer with 5 years of expertise in mobile and web application development.
-            Hands-on experience in designing, developing, and deploying scalable software solutions. My expertise spans across the full software development lifecycle — from understanding business requirements to delivering high-quality, maintainable code.
-            
+        <section class="about-text grid-layout">
+          <div class="about-title" style="position: relative;">
+            <h1>Kunal Makhija</h1>
+            <h3 style="position: relative; display: inline-block;">
 
-          </p>
+<p class="logo-1">
+      Software Developer
+    </p>
 
-          <p>
-            Throughout my career, I have worked with a diverse set of technologies and frameworks, contributing to both frontend and backend development, API design, database management, and cloud integration. I thrive in collaborative environments, enjoy solving complex problems, and continuously seek opportunities to learn and adopt emerging technologies to build efficient and impactful product.
-
-          </p>
+            </h3>
+          </div>
+          <div class="about-description">
+            <p>
+              5+ years of expertise in mobile and web application development.
+              Hands-on experience in designing, developing, and deploying scalable software solutions. My expertise spans across the full software development lifecycle — from understanding business requirements to delivering high-quality, maintainable code.
+            </p>
+          </div>
         </section>
-
 
         <!--
           - service to do: add animations
@@ -460,13 +386,13 @@
 
 
       <!--
-        - #PORTFOLIO
+        - #projects
       -->
 
-      <article class="portfolio" data-page="portfolio">
+      <article class="projects" data-page="projects">
 
         <header>
-          <h2 class="h2 article-title">Portfolio</h2>
+          <h2 class="h2 article-title">Projetcs</h2>
         </header>
 
         <section class="projects">
@@ -763,22 +689,60 @@
 
 
 
-        <section class="contact-form">
+        <section class="contact-section">
+          <div class="contact-wrapper">
+            <!-- Contact List -->
+            <ul class="contacts-list">
+        
+              <li class="contact-item">
+                <div class="icon-box">
+                  <ion-icon name="mail-outline"></ion-icon>
+                </div>
+                <div class="contact-info">
+                  <p class="contact-title">Email</p>
+                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kunalmakhija147@gmail.com&su=Hey%20Kunal!" target=" _" ><span style="color:#fff">kunalmakhija147@gmail.com</span></a>
+                </div>
+              </li>
+        
+              <li class="contact-item">
+                <div class="icon-box">
+                  <ion-icon name="phone-portrait-outline"></ion-icon>
+                </div>
+                <div class="contact-info">
+                  <p class="contact-title">Phone</p>
+                  <span style="color:#fff">+91 9016062103</span>
+                </div>
+              </li>
+        
+              <li class="contact-item">
+                <div class="icon-box">
+                  <ion-icon name="logo-github"></ion-icon>
+                </div>
+                <div class="contact-info">
+                  <a href="https://github.com/mangothecat07" class="social-link">
+                    <p style="color:#fff">Github</p>
+                  </a>
+                </div>
+              </li>
+        
+            </ul>
+        <br>
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper">
 
-          <h3 class="h3 form-title">Contact Form</h3>
-
-          <form action="mailto:kunalmakhija147@gmail.com" method="post" enctype="text/plain" class="form" data-form>
-            <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
+              <form id="contact-form" class="form">
+                <div class="input-wrapper">
+                  <input type="text" id="fullname" class="form-input" placeholder="Full name" required>
+                  <input type="email" id="email" class="form-input" placeholder="Email address" required>
+                </div>
+                <textarea id="message" class="form-input" placeholder="Your Message" required></textarea>
+                <button class="form-btn" type="submit">
+                  <ion-icon name="paper-plane"></ion-icon>
+                  <span>Send Message</span>
+                </button>
+              </form>
             </div>
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
-            <button class="form-btn" type="submit" data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
-          </form>
-
+          </div>
         </section>
 
       </article>
