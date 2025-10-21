@@ -2121,7 +2121,8 @@ body {
   line-height: 1.6; /* Improve readability */
 }
 :root {
-  --shadow-color: #FF9E9E;
+  --shadow-color:  hsl(45, 100%, 72%);
+
   --shadow-color-light: white;
 }
 
