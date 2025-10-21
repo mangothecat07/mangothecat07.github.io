@@ -2110,7 +2110,7 @@ body {
 }
 
 .about-description {
-  text-align: left; /* Justify the paragraphs for better readability */
+  text-align: left;
 }
 
 .about-description p {
