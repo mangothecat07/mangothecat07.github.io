@@ -2110,7 +2110,7 @@ body {
 }
 
 .about-description {
-  text-align: justify; /* Justify the paragraphs for better readability */
+  text-align: left; /* Justify the paragraphs for better readability */
 }
 
 .about-description p {
@@ -2133,7 +2133,7 @@ body {
 .logo-1 {
   color: white;
 
-  animation: neon 2s infinite alternate;
+  animation: neon 5s infinite alternate;
   will-change: text-shadow;
 }
 
