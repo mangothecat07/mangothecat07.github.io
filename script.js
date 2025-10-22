@@ -253,3 +253,38 @@ document.getElementById('contact-form').addEventListener('submit', function(even
 });
 
 
+const element = document.getElementById('animated-text');
+const words = ["Software Developer","Web Apps", "UI Design", "Mobile Apps", "AI"]; // your keywords
+const typeSpeed = 150;      // ms per letter
+const forwardWait = 5000;   // wait after typing a word
+const reverseWait = 1000;   // wait after deleting
+let wordIndex = 0;
+let letterIndex = 0;
+let typingForward = true;
+
+function typeLoop() {
+  const currentWord = words[wordIndex];
+
+  if (typingForward) {
+    if (letterIndex < currentWord.length) {
+      element.textContent += currentWord.charAt(letterIndex);
+      letterIndex++;
+      setTimeout(typeLoop, typeSpeed);
+    } else {
+      typingForward = false;
+      setTimeout(typeLoop, forwardWait); // wait before deleting
+    }
+  } else {
+    if (letterIndex > 0) {
+      element.textContent = currentWord.substring(0, letterIndex - 1);
+      letterIndex--;
+      setTimeout(typeLoop, typeSpeed);
+    } else {
+      typingForward = true;
+      wordIndex = (wordIndex + 1) % words.length; // move to next word
+      setTimeout(typeLoop, reverseWait); // wait before typing next word
+    }
+  }
+}
+
+typeLoop();
