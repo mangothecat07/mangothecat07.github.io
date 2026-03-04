@@ -254,35 +254,49 @@ document.getElementById('contact-form').addEventListener('submit', function(even
 
 
 const element = document.getElementById('animated-text');
-const words = ["Software Developer","Web Apps", "UI Design", "Mobile Apps", "AI"]; // your keywords
-const typeSpeed = 150;      // ms per letter
-const forwardWait = 5000;   // wait after typing a word
-const reverseWait = 1000;   // wait after deleting
+const words = ["Software Developer", "Web Apps", "UI Design", "Mobile Apps", "AI"];
+const typeSpeed = 60;      // Faster speed feels more like "streaming"
+const forwardWait = 4000;   
+const reverseWait = 1000;   
 let wordIndex = 0;
 let letterIndex = 0;
 let typingForward = true;
+
+// Create a cursor element
+const cursor = document.createElement('span');
+cursor.className = 'cursor';
+element.after(cursor);
 
 function typeLoop() {
   const currentWord = words[wordIndex];
 
   if (typingForward) {
     if (letterIndex < currentWord.length) {
-      element.textContent += currentWord.charAt(letterIndex);
+      // Create a span for the letter
+      const span = document.createElement('span');
+      span.className = 'ai-word';
+      span.textContent = currentWord.charAt(letterIndex);
+      
+      // Handle spaces specifically so they don't collapse
+      if (span.textContent === " ") span.innerHTML = "&nbsp;";
+      
+      element.appendChild(span);
       letterIndex++;
       setTimeout(typeLoop, typeSpeed);
     } else {
       typingForward = false;
-      setTimeout(typeLoop, forwardWait); // wait before deleting
+      setTimeout(typeLoop, forwardWait);
     }
   } else {
-    if (letterIndex > 0) {
-      element.textContent = currentWord.substring(0, letterIndex - 1);
+    // For deleting, we just remove the last child
+    if (element.lastChild) {
+      element.removeChild(element.lastChild);
       letterIndex--;
-      setTimeout(typeLoop, typeSpeed);
+      setTimeout(typeLoop, typeSpeed); // Faster deletion
     } else {
       typingForward = true;
-      wordIndex = (wordIndex + 1) % words.length; // move to next word
-      setTimeout(typeLoop, reverseWait); // wait before typing next word
+      wordIndex = (wordIndex + 1) % words.length;
+      setTimeout(typeLoop, reverseWait);
     }
   }
 }
