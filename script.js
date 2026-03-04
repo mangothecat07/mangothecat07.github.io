@@ -272,15 +272,35 @@ function typeLoop() {
 
   if (typingForward) {
     if (letterIndex < currentWord.length) {
-      // Create a span for the letter
+      const char = currentWord.charAt(letterIndex);
+      
+      // Determine which word we are currently on
+      const wordParts = currentWord.substring(0, letterIndex + 1).split(" ");
+      const wordCount = wordParts.length - 1;
+      const wrapperId = `word-wrapper-${wordCount}`;
+      
+      let wrapper = document.getElementById(wrapperId);
+
+      // If this is the start of a new word, create a wrapper for it
+      if (!wrapper && char !== " ") {
+        wrapper = document.createElement('span');
+        wrapper.id = wrapperId;
+        wrapper.style.display = "inline-block"; // The magic fix
+        wrapper.style.whiteSpace = "nowrap";    // Prevents breaking inside the word
+        element.appendChild(wrapper);
+      }
+
       const span = document.createElement('span');
       span.className = 'ai-word';
-      span.textContent = currentWord.charAt(letterIndex);
       
-      // Handle spaces specifically so they don't collapse
-      if (span.textContent === " ") span.innerHTML = "&nbsp;";
-      
-      element.appendChild(span);
+      if (char === " ") {
+        span.innerHTML = "&nbsp;";
+        element.appendChild(span); // Spaces go directly in the main container
+      } else {
+        span.textContent = char;
+        wrapper.appendChild(span); // Letters go inside the word wrapper
+      }
+
       letterIndex++;
       setTimeout(typeLoop, typeSpeed);
     } else {
@@ -288,11 +308,17 @@ function typeLoop() {
       setTimeout(typeLoop, forwardWait);
     }
   } else {
-    // For deleting, we just remove the last child
+    // Standard backspace logic
     if (element.lastChild) {
-      element.removeChild(element.lastChild);
+      const lastNode = element.lastChild;
+      if (lastNode.childNodes.length > 0) {
+        lastNode.removeChild(lastNode.lastChild);
+        if (lastNode.childNodes.length === 0) element.removeChild(lastNode);
+      } else {
+        element.removeChild(lastNode);
+      }
       letterIndex--;
-      setTimeout(typeLoop, typeSpeed); // Faster deletion
+      setTimeout(typeLoop, typeSpeed);
     } else {
       typingForward = true;
       wordIndex = (wordIndex + 1) % words.length;
@@ -300,5 +326,4 @@ function typeLoop() {
     }
   }
 }
-
 typeLoop();

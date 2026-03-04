@@ -2139,11 +2139,15 @@ body {
 
 
 .logo-1 {
-  color: white;
+  color: #D6D6D6;
   /*animation: neon 5s infinite alternate;*/
   animation: fadeInLetter 0.3s forwards ease-in-out;
   will-change: text-shadow;
+  display: block; 
+  line-height: 1.2;
 }
+
+
 .ai-word {
   display: inline-block;
   opacity: 0;
@@ -2151,7 +2155,10 @@ body {
   transform: translateY(2px);
   animation: fade-in 0.4s ease-out forwards;
 }
-
+.word-span {
+  display: inline-block;
+  white-space: nowrap;
+}
 @keyframes fade-in {
   to {
     opacity: 1;
