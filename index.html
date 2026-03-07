@@ -10,7 +10,19 @@
   html {
     scroll-behavior: smooth;
   }
-  
+  ::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #030303; /* Force this to be dark */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333; /* The actual handle */
+    border-radius: 10px;
+    border: 3px solid #030303; /* Creates padding around the handle */
+}  
   canvas { 
     position: fixed; 
     top: 0; 
