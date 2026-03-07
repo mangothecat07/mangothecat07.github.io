@@ -7,7 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kunal Makhija</title>
 <style>
+  html {
+    scroll-behavior: smooth;
+  }
   
+  canvas { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: -1; 
+    width: 100vw; 
+    height: 100vh;
+    pointer-events: none;
+    opacity: 50%;
+  }
 </style>
   <!--
     - favicon
@@ -28,6 +41,8 @@
 </head>
 
 <body>
+
+  <canvas id="glcanvas"></canvas>
 
   <!--
     - #MAIN
@@ -98,7 +113,7 @@
         <section class="about-text grid-layout">
           <div class="about-title" style="position: relative;">
             <h1>Kunal Makhija</h1>
-            <h3 style="position: relative; display: inline-block;">
+            <h3 style="position: relative; display: inline-block;" >
 
 <p class="logo-1" id="animated-text">
 
@@ -251,7 +266,7 @@
       <article class="resume" data-page="resume">
 
         <header>
-          <h2 class="h2 article-title">Resume&nbsp;&nbsp;<a href="https://drive.google.com/file/d/1X0z8ItAJdHFE8RNdOYy9p9siHjAArUgv/view?usp=drive_link" style="display: inline; " target=" _" title="Resume">  <img src="icon-link.svg" alt="resume-link-icon" width="20"  style="display: inline; "></a>
+          <h2 class="h2 article-title">Resume&nbsp;&nbsp;<a href="https://drive.google.com/file/d/1OHoUei1OB-rAMRDz9jfrJuzgGssNMp7u/view?usp=drive_link" style="display: inline; " target=" _" title="Resume">  <img src="icon-link.svg" alt="resume-link-icon" width="20"  style="display: inline; "></a>
             </h2>
         </header>
 
@@ -779,7 +794,7 @@
                   <ion-icon name="logo-github"></ion-icon>
                 </div>
                 <div class="contact-info">
-                  <a href="https://github.com/mangothecat07" target="_blank" class="social-link">
+                  <a href="https://github.com/mangothecat07" class="social-link">
                     <p style="color:#fff">Github</p>
                   </a>
                 </div>
@@ -820,11 +835,95 @@
     - custom js link
   -->
   <script src="script.js"></script>
-<script>
+  <script>
+    const canvas = document.getElementById('glcanvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
-
-
-</script>
+    if (gl) {
+      const vsSource = `attribute vec2 a_position; void main() { gl_Position = vec4(a_position, 0.0, 1.0); }`;
+      const fsSource = `precision highp float; uniform vec2 u_resolution; uniform float u_time; uniform vec2 u_mouse;
+        float clothFolds(vec2 p, float time) {
+          float h = 0.0; vec2 p_warp = p;
+          p_warp.x += sin(p.y * 0.8 + time * 0.2) * 0.4; p_warp.y += cos(p.x * 0.8 - time * 0.2) * 0.4;
+          h += sin(p_warp.x * 2.0 + time * 0.4) * 0.7; h += sin(p_warp.x * 1.5 - p_warp.y * 0.6 + time * 0.3) * 0.5;
+          h += cos(p_warp.x * 3.5 + p_warp.y * 1.2 - time * 0.5) * 0.2; h += sin(p_warp.x * 6.0 - p_warp.y * 2.5 + time * 0.6) * 0.08;
+          return h;
+        }
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_resolution.xy; vec2 p = uv * 2.0 - 1.0; p.x *= u_resolution.x / u_resolution.y;
+          p += u_mouse * 0.15; p *= 1.6; float t = u_time * 0.6;
+          float eps = 0.01; float h = clothFolds(p, t); float hx = clothFolds(p + vec2(eps, 0.0), t); float hy = clothFolds(p + vec2(0.0, eps), t);
+          vec3 normal = normalize(vec3((h - hx) / eps, (h - hy) / eps, 1.4));
+          vec3 lightDir = normalize(vec3(sin(t * 0.2) * 0.3, 0.8, 1.0)); vec3 viewDir = normalize(vec3(0.0, 0.0, 1.0)); vec3 halfDir = normalize(lightDir + viewDir);
+          float diffuse = max(dot(normal, lightDir), 0.0); float specAmt = max(dot(normal, halfDir), 0.0);
+          float specular = pow(specAmt, 48.0) * 0.9 + pow(specAmt, 16.0) * 0.3;
+          vec3 ambientColor = vec3(0.001, 0.002, 0.003); vec3 diffuseColor = vec3(0.01, 0.012, 0.015); vec3 specColor = vec3(0.95, 0.85, 0.70);
+          float ao = smoothstep(-1.2, 1.2, h) * 0.6 + 0.4;
+          vec3 color = ambientColor; color += diffuseColor * diffuse * ao; color += specColor * specular * ao;
+          float vignette = 1.0 - smoothstep(0.4, 1.8, length(uv - 0.5)); color *= mix(0.6, 1.0, vignette);
+          color = pow(color, vec3(1.0 / 2.2)); gl_FragColor = vec4(color, 1.0);
+        }`;
+      
+      function compileShader(type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          console.error(gl.getShaderInfoLog(shader));
+          gl.deleteShader(shader);
+          return null;
+        }
+        return shader;
+      }
+      
+      const program = gl.createProgram();
+      gl.attachShader(program, compileShader(gl.VERTEX_SHADER, vsSource));
+      gl.attachShader(program, compileShader(gl.FRAGMENT_SHADER, fsSource));
+      gl.linkProgram(program);
+      gl.useProgram(program);
+      
+      const vertices = new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+      
+      const posLoc = gl.getAttribLocation(program, "a_position");
+      gl.enableVertexAttribArray(posLoc);
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+      
+      const resLoc = gl.getUniformLocation(program, "u_resolution");
+      const timeLoc = gl.getUniformLocation(program, "u_time");
+      const mouseLoc = gl.getUniformLocation(program, "u_mouse");
+      
+      let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+      // Mouse tracking disabled
+      // window.addEventListener('mousemove', (e) => {
+      //   targetX = (e.clientX / window.innerWidth) * 2.0 - 1.0;
+      //   targetY = -(e.clientY / window.innerHeight) * 2.0 + 1.0;
+      // });
+      
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      
+      const startTime = performance.now();
+      function render(time) {
+        // Mouse tracking disabled
+        // mouseX += (targetX - mouseX) * 0.05;
+        // mouseY += (targetY - mouseY) * 0.05;
+        gl.uniform1f(timeLoc, (time - startTime) * 0.001);
+        gl.uniform2f(resLoc, canvas.width, canvas.height);
+        gl.uniform2f(mouseLoc, mouseX, mouseY);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        requestAnimationFrame(render);
+      }
+      requestAnimationFrame(render);
+    }
+  </script>
   <!--
     - ionicon link
   -->
