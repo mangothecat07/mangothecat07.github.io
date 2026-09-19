@@ -195,7 +195,7 @@ document.getElementById("contact-form").addEventListener("submit", function (eve
 const element = document.getElementById("animated-text");
 
 const words = [
-  { text: "Software Developer", prefix: false },
+  { text: "Full-Stack Developer", prefix: false },
   { text: "Web & Mobile Apps", prefix: true },
   { text: "Network Systems", prefix: true },
   { text: "UI Design", prefix: true },
