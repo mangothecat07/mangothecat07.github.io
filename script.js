@@ -198,7 +198,8 @@ const words = [
   { text: "Full-Stack Developer", prefix: false },
   { text: "Web & Mobile Apps", prefix: true },
   { text: "Network Systems", prefix: true },
-  { text: "UI Design", prefix: true },
+  { text: "Software Solutions", prefix: true},
+  { text: "For You", prefix: true },
 ];
 
 const PREFIX = "Building ";
