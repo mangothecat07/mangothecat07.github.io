@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (projectItem.dataset.category === "web design") {
         return;
       }
+      event.preventDefault();
       if (document.querySelector(".image-overlay")) {
         document.body.removeChild(document.querySelector(".image-overlay"));
       }
@@ -43,12 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const overlay = document.createElement("div");
       overlay.classList.add("image-overlay");
       overlay.innerHTML = `
-<div class="image-overlay">
   <div class="overlay-content">
     <img src="${projectImage}" alt="Full Image">
   </div>
   <button class="close-overlay">&times;</button>
-</div>
       `;
 
       document.body.appendChild(overlay);
@@ -61,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       overlay.addEventListener("click", (e) => {
-        if (e.target === overlay || document.querySelector(".image-overlay")) {
+        if (e.target === overlay) {
           document.body.removeChild(overlay);
           document.body.style.overflow = "auto";
         }
@@ -166,16 +165,17 @@ const pages = document.querySelectorAll("[data-page]");
 
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
-    for (let j = 0; j < pages.length; j++) {
-      if (this.innerHTML.toLowerCase() === pages[j].dataset.page) {
-        pages[j].classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[j].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
-      }
+    const targetPage = this.textContent.trim().toLowerCase();
+
+    for (let j = 0; j < navigationLinks.length; j++) {
+      navigationLinks[j].classList.toggle("active", navigationLinks[j] === this);
     }
+
+    for (let j = 0; j < pages.length; j++) {
+      pages[j].classList.toggle("active", pages[j].dataset.page === targetPage);
+    }
+
+    window.scrollTo(0, 0);
   });
 }
 
